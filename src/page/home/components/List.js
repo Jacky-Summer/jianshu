@@ -28,9 +28,5 @@ const mapState = (state) => {
         list:state.getIn(['home','articleList'])
     }
 }
-const mapDispatch = (dispatch) => {
-    return {
 
-    }
-}
-export default connect(mapState,mapDispatch)(List);
+export default connect(mapState,null)(List);

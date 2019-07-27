@@ -17,8 +17,44 @@ import {
     SearchInfoItem
 } from './style'
 class Header extends Component {
+
+    getListArea(){
+        const { focued, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props;
+		const newList = list.toJS();
+		const pageList = [];
+		if (newList.length) {
+			for (let i = (page - 1) * 10; i < page * 10; i++) {
+				pageList.push(
+					<SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+				)
+			}
+		}
+
+        
+        if(focued || mouseIn){
+            return (
+                <SearchInfo
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <SearchInfoTitle>
+                        热门搜索
+                        <SearchInfoSwitch onClick={() => handleChangePage(page,totalPage)}>
+                            <span className="iconfont">&#xe851;</span>
+                            换一换
+                        </SearchInfoSwitch>
+                    </SearchInfoTitle>
+                    <SearchInfoList>
+                        {pageList}    
+                    </SearchInfoList>
+                </SearchInfo>
+            )
+        }else{
+            return null;
+        }
+    }
     render() {
-        const { handleInputFocus,list } = this.props;
+        const { handleInputFocus,focued,handleInputBlur,list } = this.props;
         return (
             <HeaderWrapper>
                 <Logo />
@@ -36,31 +72,20 @@ class Header extends Component {
                     <NavItem className="right"><span className="iconfont">&#xe600;</span></NavItem>
                     <SearchWrapper>
                         <NavSearch
-                            onFocus={handleInputFocus}
+                            className={focued ? 'focued' :''}
+                            onFocus={() => handleInputFocus(list)}
+                            onBlur={handleInputBlur}
                         ></NavSearch>
-                        <span className="iconfont">&#xe614;</span>
+                        <span className={focued ? 'focued iconfont zoom': 'iconfont zoom'}>&#xe614;</span>
                     </SearchWrapper>
-                    <SearchInfo>
-                        <SearchInfoTitle>
-                            热门搜索
-                            <SearchInfoSwitch>换一换</SearchInfoSwitch>
-                        </SearchInfoTitle>
-                        <SearchInfoList>
-                         {
-                             list.map((item)=>{
-                                 return <SearchInfoItem key={item}>{item}</SearchInfoItem>
-                             })
-                         }        
-                        </SearchInfoList>
-                    </SearchInfo>
+                    {this.getListArea()}
                 </Nav>
                 <Addition>
                     <Button className="writing">
                         <span className="iconfont">&#xe615;</span>
                         写文章
                     </Button>
-                    <Button className="reg">注册</Button>
-                    
+                    <Button className="reg">注册</Button>         
                 </Addition>
             </HeaderWrapper>
         );
@@ -68,13 +93,34 @@ class Header extends Component {
 }
 const mapState = (state) => {
     return {
-        list:state.header.get('headerList')
+        list:state.getIn(['header','list']),
+        focued:state.getIn(['header','focued']),
+        page:state.getIn(['header','page']),
+        totalPage:state.getIn(['header','totalPage']),
+        mouseIn:state.getIn(['header','mouseIn'])
     }
 }
 const mapDispatch = (dispatch) => {
     return {
-        handleInputFocus(){
-            dispatch(actionCreators.getList())
+        handleInputFocus(list){
+            (list.size === 0) && dispatch(actionCreators.getList());
+            dispatch(actionCreators.searchFocusAction())
+        },
+        handleInputBlur(){
+            dispatch(actionCreators.searchBlurAction())
+        },
+        handleMouseEnter(){
+            dispatch(actionCreators.mouseEnterAction())
+        },
+        handleMouseLeave(){
+            dispatch(actionCreators.mouseLeaveAction())
+        },
+        handleChangePage(page,totalPage){
+            if(page < totalPage){
+                dispatch(actionCreators.changePageAction(page + 1))
+            }else{
+                dispatch(actionCreators.changePageAction(1))
+            }   
         }
     }
 }

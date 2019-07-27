@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as actionCreators from './store/actionCreators'
+import { CSSTransition } from 'react-transition-group'
 import {
     HeaderWrapper,
     Logo,
@@ -39,8 +40,8 @@ class Header extends Component {
                 >
                     <SearchInfoTitle>
                         热门搜索
-                        <SearchInfoSwitch onClick={() => handleChangePage(page,totalPage)}>
-                            <span className="iconfont">&#xe851;</span>
+                        <SearchInfoSwitch onClick={() => handleChangePage(page,totalPage,this.spinIcon)}>
+                            <span className="iconfont spin" ref={(icon)=> this.spinIcon = icon}>&#xe851;</span>
                             换一换
                         </SearchInfoSwitch>
                     </SearchInfoTitle>
@@ -71,12 +72,18 @@ class Header extends Component {
                     <NavItem className="right"><span className="iconfont">&#xe636;</span></NavItem>
                     <NavItem className="right"><span className="iconfont">&#xe600;</span></NavItem>
                     <SearchWrapper>
-                        <NavSearch
-                            className={focued ? 'focued' :''}
-                            onFocus={() => handleInputFocus(list)}
-                            onBlur={handleInputBlur}
-                        ></NavSearch>
-                        <span className={focued ? 'focued iconfont zoom': 'iconfont zoom'}>&#xe614;</span>
+                        <CSSTransition
+                            classNames="slide"
+                            in={focued}
+                            timeout={2000}
+                        >
+                            <NavSearch
+                                className={focued ? 'focued' :''}
+                                onFocus={() => handleInputFocus(list)}
+                                onBlur={handleInputBlur}
+                            ></NavSearch>
+                        </CSSTransition>
+                        <span className={focued ? 'iconfont zoom': 'iconfont'}>&#xe614;</span>
                     </SearchWrapper>
                     {this.getListArea()}
                 </Nav>
@@ -115,7 +122,14 @@ const mapDispatch = (dispatch) => {
         handleMouseLeave(){
             dispatch(actionCreators.mouseLeaveAction())
         },
-        handleChangePage(page,totalPage){
+        handleChangePage(page,totalPage,spin){
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig, '');
+			if (originAngle) {
+				originAngle = parseInt(originAngle, 10);
+			}else {
+				originAngle = 0;
+			}
+			spin.style.transform = 'rotate(' + (originAngle + 360) + 'deg)';
             if(page < totalPage){
                 dispatch(actionCreators.changePageAction(page + 1))
             }else{

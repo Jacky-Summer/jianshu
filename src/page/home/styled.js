@@ -15,15 +15,35 @@ export const HomeLeft = styled.div`
 		height: 270px;
 	}
 `
-export const TopicWrapper = styled.div`
-    overflow: hidden;
-	padding: 20px 0 10px 0;
-	margin-left: -18px;
+export const ListItem = styled.div`
+	overflow: hidden;
+	padding: 20px 0;
 	border-bottom: 1px solid #dcdcdc;
-`    
-export const TopicItem = styled.div`
+	.pic {
+        display: block;
+        width: 105px;
+        height: 80px;
+        float: right;
+        border-radius: 10px;
+	}
+`;
 
-`
+export const ListInfo =	styled.div`
+	width: 500px;
+	float: left;
+	.title {
+		line-height: 27px;
+		font-size: 18px;
+		font-weight: bold;
+		color: #333;
+	}
+	.desc {
+		line-height: 24px;
+		font-size: 13px;
+		color: #999;
+	}
+`;
+
 export const HomeRight = styled.div`
     width:240px;
     float:right;

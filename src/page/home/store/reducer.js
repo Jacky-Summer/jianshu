@@ -81,7 +81,8 @@ const defaultState = fromJS({
         "star":54.4,
         "imgUrl":"//upload.jianshu.io/users/upload_avatars/1835526/83d24e1a-0a0f-43f6-8a1d-289be6101e73.png?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96/format/webp"
     }],
-    articlePage:1
+    articlePage:1,
+    showScroll:false
 
 })
 export default (state = defaultState,action) => {
@@ -91,6 +92,8 @@ export default (state = defaultState,action) => {
                 'articleList':state.get('articleList').concat(action.data),
                 'articlePage':action.nextPage
             })
+        case constants.CHANGE_SCROLL_SHOW:
+            return state.set('showScroll',action.isShow)
         default:
             return state;
     }

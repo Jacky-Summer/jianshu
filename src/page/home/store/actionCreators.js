@@ -17,3 +17,7 @@ export const addArticleList = (page) => {
         })   
     }
 }
+export const ToggleScrollShow = (isShow) => ({
+    type:constants.CHANGE_SCROLL_SHOW,
+    isShow
+})

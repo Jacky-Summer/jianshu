@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { AdWrapper,AdInfo } from '../styled'
-class Advertisement extends Component {
+class Advertisement extends PureComponent {
     render() {
         return (
             <AdWrapper>

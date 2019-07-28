@@ -105,6 +105,7 @@ export const Button = styled.div`
     border-radius: 20px;
     font-size: 15px;
     text-align:center;
+    cursor:pointer;
     
     &.writing{
         background-color: #ea6f5a;

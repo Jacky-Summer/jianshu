@@ -21,6 +21,7 @@ export const Nav = styled.div`
     margin:0 auto;
 `;
 export const NavItem = styled.div`
+    cursor:pointer;
     line-height: 56px;
     padding: 0 15px;
     font-size: 17px;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as actionCreators from './store/actionCreators'
 import { CSSTransition } from 'react-transition-group'
 import { Link } from 'react-router-dom'
+import { actionCreators as logoutCreators } from '../../page/login/store'
 import {
     HeaderWrapper,
     Logo,
@@ -56,7 +57,7 @@ class Header extends PureComponent {
         }
     }
     render() {
-        const { handleInputFocus,focued,handleInputBlur,list } = this.props;
+        const { handleInputFocus,focued,handleInputBlur,list,loginStatus,logout } = this.props;
         return (
             <HeaderWrapper>
                 <Link to='/'>
@@ -71,7 +72,12 @@ class Header extends PureComponent {
                         <span className="iconfont">&#xe666;</span>
                         下载App
                     </NavItem>
-                    <Link to='/login'><NavItem className="right login">登录</NavItem></Link>
+                    {
+                        loginStatus ? 
+                        <NavItem onClick={logout} className="right login">退出</NavItem>  :
+                        <Link to='/login'><NavItem className="right login">登录</NavItem></Link>
+                    }
+                   
                     <NavItem className="right"><span className="iconfont">&#xe636;</span></NavItem>
                     <NavItem className="right"><span className="iconfont">&#xe600;</span></NavItem>
                     <SearchWrapper>
@@ -107,7 +113,8 @@ const mapState = (state) => {
         focued:state.getIn(['header','focued']),
         page:state.getIn(['header','page']),
         totalPage:state.getIn(['header','totalPage']),
-        mouseIn:state.getIn(['header','mouseIn'])
+        mouseIn:state.getIn(['header','mouseIn']),
+        loginStatus:state.getIn(['login','loginStatus'])
     }
 }
 const mapDispatch = (dispatch) => {
@@ -138,6 +145,9 @@ const mapDispatch = (dispatch) => {
             }else{
                 dispatch(actionCreators.changePageAction(1))
             }   
+        },
+        logout(){
+            dispatch(logoutCreators.logout())
         }
     }
 }

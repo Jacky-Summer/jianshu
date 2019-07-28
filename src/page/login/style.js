@@ -34,6 +34,7 @@ export const Button = styled.div`
 	height: 40px;
 	line-height: 40px;
 	color: #fff;
+	cursor:pointer;
 	background: #3194d0;
 	border-radius: 15px;
 	margin: 15px auto;

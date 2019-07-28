@@ -3,7 +3,7 @@ import {GlobalStyled} from './style.js';
 import {GlobalStyledIcon} from './static/iconfont/iconfont'
 import Header from './common/header'
 import Home from './page/home'
-import Detail from './page/detail'
+import Detail from './page/detail/loadable.js'
 import Login from './page/login'
 import Write from './page/write'
 import { Provider } from 'react-redux'

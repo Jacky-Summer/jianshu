@@ -71,7 +71,7 @@ class Header extends PureComponent {
                         <span className="iconfont">&#xe666;</span>
                         下载App
                     </NavItem>
-                    <NavItem className="right login">登录</NavItem>
+                    <Link to='/login'><NavItem className="right login">登录</NavItem></Link>
                     <NavItem className="right"><span className="iconfont">&#xe636;</span></NavItem>
                     <NavItem className="right"><span className="iconfont">&#xe600;</span></NavItem>
                     <SearchWrapper>

@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable'
+import * as constants from './constants'
 const defaultState = fromJS({
     "articleList": [{
         "id": 1,
@@ -79,10 +80,18 @@ const defaultState = fromJS({
         "words":518.3,
         "star":54.4,
         "imgUrl":"//upload.jianshu.io/users/upload_avatars/1835526/83d24e1a-0a0f-43f6-8a1d-289be6101e73.png?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96/format/webp"
-    }
-]
+    }],
+    articlePage:1
 
 })
 export default (state = defaultState,action) => {
-    return state;
+    switch(action.type){
+        case constants.ADD_ACTICLE_LIST:
+            return state.merge({
+                'articleList':state.get('articleList').concat(action.data),
+                'articlePage':action.nextPage
+            })
+        default:
+            return state;
+    }
 }

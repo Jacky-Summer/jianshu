@@ -1,0 +1,1 @@
+export const ADD_ACTICLE_LIST = 'add_acticle_list'
